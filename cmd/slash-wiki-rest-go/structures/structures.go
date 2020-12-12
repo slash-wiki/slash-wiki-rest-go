@@ -19,6 +19,6 @@ type Parameters struct {
 
 type Message struct {
 	// Response type for returning Slack messages.
-	ResponseType string `schema:"response_type"`
-	Text         string `schema:"text"`
+	ResponseType string `json:"response_type"`
+	Text         string `json:"text"`
 }
