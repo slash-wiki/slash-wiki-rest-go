@@ -29,16 +29,9 @@ func main() {
 		var parameters Structures.Parameters
 		err = decoder.Decode(&parameters, request.PostForm)
 
-		if nil != err {
-			message = Structures.Message{
-				ResponseType: "ephemeral",
-				Text:         "The form could not be decoded.",
-			}
-		} else {
-			message = Structures.Message{
-				ResponseType: "in_channel",
-				Text:         fmt.Sprintf("Hello %s, the time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
-			}
+		message = Structures.Message{
+			ResponseType: "in_channel",
+			Text:         fmt.Sprintf("Hello %s, the time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
 		}
 
 		writer.Header().Add("Content-Type", "application/json")
