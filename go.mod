@@ -1,4 +1,4 @@
-module github.com/they-them/slash-wiki-rest-go
+module github.com/slash-wiki/slash-wiki-rest-go
 
 go 1.15
 
