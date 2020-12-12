@@ -27,11 +27,11 @@ func main() {
 		}
 
 		var parameters Structures.Parameters
-		err = decoder.Decode(&parameters, request.PostForm)
+		_ = decoder.Decode(&parameters, request.PostForm)
 
 		message = Structures.Message{
 			ResponseType: "in_channel",
-			Text:         fmt.Sprintf("Hello %s, the time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
+			Text:         fmt.Sprintf("Hello %s, the date and time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
 		}
 
 		writer.Header().Add("Content-Type", "application/json")
