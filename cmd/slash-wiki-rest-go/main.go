@@ -1,7 +1,6 @@
 package main
 
 import (
-	// Utilities "github.com/they-them/slash-wiki-rest-go/cmd/slash-wiki-rest-go/utilities" 
 	Structures "github.com/they-them/slash-wiki-rest-go/cmd/slash-wiki-rest-go/structures" 
 	"github.com/gorilla/schema"
 	"github.com/gorilla/mux"
@@ -17,22 +16,29 @@ var decoder = schema.NewDecoder()
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		var message Structures.Message
 		err := request.ParseForm()
 		
 		if nil != err {
-			// Handle error
+			message = Structures.Message{
+				ResponseType: "ephemeral",
+				Text:         "The form could not be parsed.",
+			}
 		}
 
 		var parameters Structures.Parameters
 		err = decoder.Decode(&parameters, request.PostForm)
 
 		if nil != err {
-			// Handle error
-		}
-
-		message := Structures.Message{
-			ResponseType: "in_channel",
-			Text:         fmt.Sprintf("Hello %s, the time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
+			message = Structures.Message{
+				ResponseType: "ephemeral",
+				Text:         "The form could not be decoded.",
+			}
+		} else {
+			message = Structures.Message{
+				ResponseType: "in_channel",
+				Text:         fmt.Sprintf("Hello %s, the time is %s.", parameters.UserId, time.Now().Format(time.RFC850)),
+			}
 		}
 
 		writer.Header().Add("Content-Type", "application/json")
